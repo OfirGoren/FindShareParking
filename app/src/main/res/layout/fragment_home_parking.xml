@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <include
+        android:id="@+id/includeHomeParking"
+        layout="@layout/app_bars_top_home_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/linearProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/includeHomeParking"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/orange"
+        app:trackColor="@color/light_gray" />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linearProgressBar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAllPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/colorPr"
+            tools:listitem="@layout/recyclerview_parking_main" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</RelativeLayout>

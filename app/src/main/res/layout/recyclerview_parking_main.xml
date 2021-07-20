@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ABB2B9"
+    android:padding="6dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageUserPost"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="25dp">
+
+                <ImageView
+                    android:id="@+id/myPic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/user_picture"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/nameOnPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/imageUserPost"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/navigateButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layViewMap"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/navigate"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="@color/orange"
+                app:cornerRadius="60dp"
+                tools:ignore="RelativeOverlap" />
+
+            <RelativeLayout
+                android:id="@+id/layViewMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/parkingPhoto"
+                android:layout_marginTop="15dp"
+                android:background="#F0F0F0"
+                android:orientation="vertical"
+                android:padding="1dp">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_alignParentEnd="true"
+                    android:enabled="true"
+                    tools:context=".MapsActivity">
+
+
+                </com.google.android.gms.maps.MapView>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageUserPost"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/archivo_black"
+                android:gravity="center_horizontal"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/textMoreInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textPost"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp" />
+
+
+            <ImageView
+                android:id="@+id/parkingPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/textMoreInfo"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+
+                android:contentDescription="@string/parking_picture"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background">
+
+
+            </ImageView>
+
+
+            <LinearLayout
+                android:id="@+id/layLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layViewMap"
+                android:layout_marginTop="20dp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <com.like.LikeButton
+                    android:id="@+id/likeBtn"
+                    android:layout_width="28dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="2dp"
+                    app:anim_scale_factor="2.5"
+                    app:dots_primary_color="@color/orange"
+                    app:dots_secondary_color="@color/orange"
+                    app:icon_size="8dp"
+                    app:icon_type="heart"
+                    app:is_enabled="true"
+                    app:like_drawable="@drawable/filled_like"
+                    app:liked="false"
+                    app:unlike_drawable="@drawable/like">
+
+                </com.like.LikeButton>
+
+                <TextView
+                    android:id="@+id/textLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/like"
+                    android:textColor="@color/gray"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/amountOfLikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layViewMap"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="27dp"
+                android:layout_toRightOf="@id/layLike"
+                android:text="@string/_0"
+                android:textColor="@color/gray"
+                android:textSize="17sp" />
+
+
+            <TextView
+                android:id="@+id/kindOfParking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layViewMap"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="11dp"
+                android:fontFamily="@font/archivo_black"
+                android:textColor="@color/orange"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

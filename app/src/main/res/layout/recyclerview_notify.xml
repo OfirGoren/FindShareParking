@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/likeIcon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/filled_like"
+        android:backgroundTint="@color/orange"
+        android:contentDescription="@string/like"
+        android:elevation="10dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CardViewRecyclerNotify"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="25dp">
+
+        <ImageView
+            android:id="@+id/imageRecyclerNotify"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/user_picture"
+            android:elevation="5dp"
+            android:scaleType="centerCrop">
+
+        </ImageView>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/nameRecyclerNotify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/CardViewRecyclerNotify"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/nameRecyclerNotify"
+        android:text="@string/like_post"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

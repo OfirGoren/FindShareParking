@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52702279814",
+    "project_id": "findshareparking-312607",
+    "storage_bucket": "findshareparking-312607.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52702279814:android:66e7d10fe987743108f907",
+        "android_client_info": {
+          "package_name": "com.example.findshareparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52702279814-nqel74t6uoopjvib7ubqc8ufogfh9icv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQKVfGaHkGXnWMA9qn0LWK9pep9rff8Hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52702279814-nqel74t6uoopjvib7ubqc8ufogfh9icv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
