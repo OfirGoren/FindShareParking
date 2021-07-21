@@ -25,6 +25,7 @@ import com.example.FindShareParking.Objects.Notify;
 import com.example.FindShareParking.Objects.Post;
 import com.example.FindShareParking.R;
 import com.example.FindShareParking.Utils.AuthUtils;
+import com.example.FindShareParking.Utils.CollectionsUtils;
 import com.example.FindShareParking.Utils.SharedPrefUtils;
 import com.example.FindShareParking.databinding.FragmentHomeParkingBinding;
 
@@ -69,18 +70,17 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
         super.onCreateView(inflater, container, savedInstanceState);
         binding = FragmentHomeParkingBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-            setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
-        setRetainInstance(true);
 
-            initValues();
-            initObjects();
-            initColors();
-            initRecyclerView();
-            requestAllPostInFireStore();
-            initCallBacks();
+        initValues();
+        initObjects();
+        initColors();
+        initRecyclerView();
+        requestAllPostInFireStore();
+        initCallBacks();
 
-            return view;
+        return view;
 
     }
 
@@ -89,7 +89,6 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
             fireStoreManager.getAllPost();
         }
     }
-
 
 
     private void initColors() {
@@ -234,30 +233,14 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
     public void allPostsCallBack(ArrayList<Post> posts) {
 
         //insert the posts to recycler view
-
         filteringPostsAccordingTypeOfParking(posts);
+        // The new posts will be up
+        CollectionsUtils.newPostUp(posts);
         insertPostsToRecyclerView(posts);
 
 
     }
-
-    @Override
-    public void addNewPost(ArrayList<Post> newPosts) {
-        if (this.posts == null) {
-            this.posts = new ArrayList<>();
-        }
-        if (newPosts.size() > 0) {
-            this.posts.addAll(0, newPosts);
-            adapter.notifyItemRangeInserted(0, newPosts.size());
-
-        }
-
-        binding.swipeLayout.setRefreshing(false);
-        binding.swipeLayout.setEnabled(true);
-
-
-    }
-
+    
 
     private void filteringPostsAccordingTypeOfParking(ArrayList<Post> allPost) {
         String typeOfParking = SharedPrefUtils.getInstance().getSummaryFromSettingsListPreferencePref();
@@ -291,7 +274,6 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
                 if (newPost.getCurrentUserId().equals(AuthUtils.getCurrentUser())) {
                     //add the post to the list
                     addToRvNewPost(newPost);
-                    binding.linearProgressBar.setVisibility(View.GONE);
                 } else {
                     // check and handle if the post was remove , new like , new post
                     replaceRemoveOrAddNewPostToListRefresh(newPost);
@@ -324,6 +306,7 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
     private void addToRvNewPost(Post newPost) {
         this.posts.add(0, newPost);
         adapter.notifyItemInserted(0);
+        binding.linearProgressBar.setVisibility(View.GONE);
     }
 
     private void addToPositionItemsWasLikeChangedList(int index) {
@@ -437,13 +420,6 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
         }
 
     }
-
-    @Override
-    public void setRefreshingOff() {
-        binding.swipeLayout.setRefreshing(false);
-
-    }
-
 
     //insert the posts to recycler view
     private void insertPostsToRecyclerView(ArrayList<Post> posts) {

@@ -20,6 +20,7 @@ import com.example.FindShareParking.Objects.FireStoreManager;
 import com.example.FindShareParking.Objects.MyRecyclerViewAdapter;
 import com.example.FindShareParking.Objects.Post;
 import com.example.FindShareParking.R;
+import com.example.FindShareParking.Utils.CollectionsUtils;
 import com.example.FindShareParking.databinding.FragmentMyPostBinding;
 
 import java.util.ArrayList;
@@ -102,10 +103,11 @@ public class MyPostFragment extends Fragment implements MyPostsCallBack, MyRecyc
 
 
     @Override
-    public void myPostsCallBack(ArrayList<Post> myPost) {
-        this.posts.addAll(0, myPost);
-        adapter.notifyItemRangeInserted(0, myPost.size());
-
+    public void myPostsCallBack(ArrayList<Post> myPosts) {
+        // The new posts will be up
+        CollectionsUtils.newPostUp(myPosts);
+        this.posts.addAll(0, myPosts);
+        adapter.notifyItemRangeInserted(0, myPosts.size());
 
     }
 

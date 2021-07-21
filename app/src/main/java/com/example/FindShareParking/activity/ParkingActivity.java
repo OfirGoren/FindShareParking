@@ -4,7 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -49,6 +49,7 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
     private static final String MY_POST_TAG = "2";
     private static final String NOTIFY_TAG = "3";
     private static final String MORE_TAG = "4";
+    private static final String CURRENT_FRAGMENT_KEY = "CURRENT_FRAGMENT_KEY";
 
 
     private HomeParkingFragment homeParkingFragment;
@@ -57,8 +58,8 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
     private NotifyFragment notifyFragment;
     private MoreFragment moreFragment;
     private SettingFragment settingFragment;
-    private final FragmentManager fm = getSupportFragmentManager();
-    private Fragment currentActive;
+    private FragmentManager fm;
+    private Fragment currentActiveFragment;
     private BadgeDrawable badge;
     private ActivityParkingBinding binding;
 
@@ -68,16 +69,11 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
         super.onCreate(savedInstanceState);
         binding = ActivityParkingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        fm = getSupportFragmentManager();
 
         setContentView(view);
         handleSavedInstanceState(savedInstanceState);
-        initCallBacksBottomNav();
-        currentActive = homeParkingFragment;
-
-        initFragments();
         initCallBacks();
-
-
         listeners();
         initBadgeNotify();
         changeStatusBarColorToOrange();
@@ -87,34 +83,74 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
 
     private void handleSavedInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            homeParkingFragment = (HomeParkingFragment) fm.findFragmentByTag(HOME_PARKING_TAG);
-            myPostFragment = (MyPostFragment) fm.findFragmentByTag(MY_POST_TAG);
-            notifyFragment = (NotifyFragment) fm.findFragmentByTag(NOTIFY_TAG);
-            moreFragment = (MoreFragment) fm.findFragmentByTag(MORE_TAG);
+            initFindFragmentsByTag();
+            initCurrentFragmentValueBeforeAppProcessKilled(savedInstanceState);
+            initSettingAndNewPostIfNull();
 
         } else {
-            initFragmentsBottomNav();
+            initFragmentsObjects();
             beginTransactionFragments();
-
+            currentActiveFragment = homeParkingFragment;
         }
 
+    }
+
+
+    private void initFindFragmentsByTag() {
+        homeParkingFragment = (HomeParkingFragment) fm.findFragmentByTag(HOME_PARKING_TAG);
+        myPostFragment = (MyPostFragment) fm.findFragmentByTag(MY_POST_TAG);
+        notifyFragment = (NotifyFragment) fm.findFragmentByTag(NOTIFY_TAG);
+        moreFragment = (MoreFragment) fm.findFragmentByTag(MORE_TAG);
+        settingFragment = (SettingFragment) fm.findFragmentByTag(SETTING_TAG);
+        newPostFragment = (NewPostFragment) fm.findFragmentByTag(NEW_POST_TAG);
+    }
+
+    private void initSettingAndNewPostIfNull() {
+        if (settingFragment == null) {
+            settingFragment = new SettingFragment();
+        }
+        if (newPostFragment == null) {
+            newPostFragment = new NewPostFragment();
+        }
+    }
+
+    private void initCurrentFragmentValueBeforeAppProcessKilled(Bundle savedInstanceState) {
+        String numTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY);
+        switch (numTag) {
+            case HOME_PARKING_TAG:
+                currentActiveFragment = homeParkingFragment;
+                break;
+            case MY_POST_TAG:
+                currentActiveFragment = myPostFragment;
+                break;
+            case NOTIFY_TAG:
+                currentActiveFragment = notifyFragment;
+                break;
+            case MORE_TAG:
+                currentActiveFragment = moreFragment;
+                break;
+            case NEW_POST_TAG:
+                currentActiveFragment = newPostFragment;
+                break;
+            case SETTING_TAG:
+                currentActiveFragment = settingFragment;
+                break;
+        }
 
     }
 
-    private void initFragments() {
-        newPostFragment = new NewPostFragment();
-        settingFragment = new SettingFragment();
-    }
-
-    private void initCallBacksBottomNav() {
-        homeParkingFragment.initNewPostCallBack(this);
-        notifyFragment.initPostNotifyCallBack(this);
-        moreFragment.initOpenFirstActivityCallBack(this);
-        moreFragment.initNotifyPhotoChangedCallBack(this);
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString(CURRENT_FRAGMENT_KEY, HOME_PARKING_TAG);
     }
 
 
     private void initCallBacks() {
+        homeParkingFragment.initNewPostCallBack(this);
+        notifyFragment.initPostNotifyCallBack(this);
+        moreFragment.initOpenFirstActivityCallBack(this);
+        moreFragment.initNotifyPhotoChangedCallBack(this);
         moreFragment.initOpenSettingsCallBack(this);
         settingFragment.initDataChangedCallBack(this);
         newPostFragment.initNewPOstFragmentCallBack(this);
@@ -125,6 +161,33 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        saveTagCurrentFragmentDisplay(outState);
+
+    }
+
+    /*
+     save the tag of current fragment display
+     */
+
+    private void saveTagCurrentFragmentDisplay(Bundle outState) {
+        if (currentActiveFragment instanceof HomeParkingFragment) {
+            outState.putString(CURRENT_FRAGMENT_KEY, HOME_PARKING_TAG);
+
+        } else if (currentActiveFragment instanceof MyPostFragment) {
+            outState.putString(CURRENT_FRAGMENT_KEY, MY_POST_TAG);
+
+        } else if (currentActiveFragment instanceof NotifyFragment) {
+            outState.putString(CURRENT_FRAGMENT_KEY, NOTIFY_TAG);
+
+        } else if (currentActiveFragment instanceof MoreFragment) {
+            outState.putString(CURRENT_FRAGMENT_KEY, MORE_TAG);
+
+        } else if (currentActiveFragment instanceof NewPostFragment) {
+            outState.putString(CURRENT_FRAGMENT_KEY, NEW_POST_TAG);
+
+        } else if (currentActiveFragment instanceof SettingFragment) {
+            outState.putString(CURRENT_FRAGMENT_KEY, SETTING_TAG);
+        }
     }
 
     private void beginTransactionFragments() {
@@ -147,15 +210,16 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
     }
 
 
-    private void initFragmentsBottomNav() {
+    private void initFragmentsObjects() {
         homeParkingFragment = new HomeParkingFragment();
         myPostFragment = new MyPostFragment();
         notifyFragment = new NotifyFragment();
         moreFragment = new MoreFragment();
+        settingFragment = new SettingFragment();
+        newPostFragment = new NewPostFragment();
 
 
     }
-
 
     private boolean kindFragmentDisplay(String tag) {
         Fragment fragment = fm.findFragmentByTag(tag);
@@ -185,21 +249,21 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
             int id = item.getItemId();
 
             if (id == R.id.mainPage) {
-                fm.beginTransaction().hide(currentActive).show(homeParkingFragment).commit();
-                currentActive = homeParkingFragment;
+                fm.beginTransaction().hide(currentActiveFragment).show(homeParkingFragment).commit();
+                currentActiveFragment = homeParkingFragment;
                 return true;
             } else if (id == R.id.myPostPage) {
-                fm.beginTransaction().hide(currentActive).show(myPostFragment).commit();
-                currentActive = myPostFragment;
+                fm.beginTransaction().hide(currentActiveFragment).show(myPostFragment).commit();
+                currentActiveFragment = myPostFragment;
                 return true;
             } else if (id == R.id.notification) {
-                fm.beginTransaction().hide(currentActive).show(notifyFragment).commit();
-                currentActive = notifyFragment;
+                fm.beginTransaction().hide(currentActiveFragment).show(notifyFragment).commit();
+                currentActiveFragment = notifyFragment;
                 resetBadgeNotify();
                 return true;
             } else if (id == R.id.morePage) {
-                fm.beginTransaction().hide(currentActive).show(moreFragment).commit();
-                currentActive = moreFragment;
+                fm.beginTransaction().hide(currentActiveFragment).show(moreFragment).commit();
+                currentActiveFragment = moreFragment;
                 return true;
             }
             return false;
@@ -212,17 +276,27 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
     public void onBackPressed() {
 
         int count = fm.getBackStackEntryCount();
-
         //when have one fragment in backStack
         if (count == 1) {
             finish();
         } else {
-            if (kindFragmentDisplay(NEW_POST_TAG) || kindFragmentDisplay(SETTING_TAG)) {
-                binding.bottomNav.setVisibility(View.VISIBLE);
-
-
-            }
+            handleCurrentFragmentNewPostOrSetting();
             super.onBackPressed();
+        }
+    }
+
+    private void handleCurrentFragmentNewPostOrSetting() {
+
+        if (kindFragmentDisplay(NEW_POST_TAG)) {
+            binding.bottomNav.setVisibility(View.VISIBLE);
+            //return to home parking fragment
+            currentActiveFragment = homeParkingFragment;
+
+        } else if (kindFragmentDisplay(SETTING_TAG)) {
+            binding.bottomNav.setVisibility(View.VISIBLE);
+            //return to more fragment
+            currentActiveFragment = moreFragment;
+
         }
     }
 
@@ -245,7 +319,6 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
                     .addToBackStack(null);
         }
         // Hide fragment order
-        Log.d("displayFragmentWithBa", "displayFragmentWithBackStack: " + hideFragment.isAdded());
         if (hideFragment.isAdded()) {
             ft.hide(hideFragment);
         }
@@ -296,8 +369,8 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
     }
 
     private void displayNewPostFragment() {
-
-        displayFragmentWithBackStack(newPostFragment, homeParkingFragment, NEW_POST_TAG);
+        displayFragmentWithBackStack(newPostFragment, currentActiveFragment, NEW_POST_TAG);
+        currentActiveFragment = newPostFragment;
 
 
     }
@@ -340,8 +413,9 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
 
     @Override
     public void openSettingFragmentCallBack() {
-        displayFragmentWithBackStack(settingFragment, currentActive, SETTING_TAG);
+        displayFragmentWithBackStack(settingFragment, currentActiveFragment, SETTING_TAG);
         binding.bottomNav.setVisibility(View.GONE);
+        currentActiveFragment = settingFragment;
 
 
     }

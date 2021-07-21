@@ -10,9 +10,6 @@
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
 
-
-
-
     <application
         android:name=".App"
         android:allowBackup="true"

@@ -7,9 +7,8 @@ import java.util.ArrayList;
 public interface AllPostCallBack {
 
     void allPostsCallBack(ArrayList<Post> newPosts);
-    void addNewPost(ArrayList<Post> posts);
     void postsWasChanges(ArrayList<Post> posts);
-    void setRefreshingOff();
+
 
 
 }
