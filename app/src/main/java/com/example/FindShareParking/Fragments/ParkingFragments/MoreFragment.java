@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -102,7 +101,6 @@ public class MoreFragment extends Fragment implements ImageUriCallBack, CurrentU
                     if (data != null) {
                         Uri uri = data.getData();
                         setImageUserWithUriGlide(uri);
-
                         fireStoreManager.savePhotoToStorageUri(uri);
                         if (notifyPhotoChangedCallBack != null) {
                             notifyPhotoChangedCallBack.notifyPhotoUserChangedCallBack();
@@ -126,7 +124,6 @@ public class MoreFragment extends Fragment implements ImageUriCallBack, CurrentU
     @Override
     public void imageUriCallBack(String imageUri) {
         fireStoreManager.updateUserPhotoInFireStore(imageUri);
-        Log.d("imageUriCallBack", "imageUriCallBack: " + imageUri);
 
 
     }

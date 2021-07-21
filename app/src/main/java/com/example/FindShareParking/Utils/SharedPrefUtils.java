@@ -101,7 +101,7 @@ public class SharedPrefUtils {
     }
 
     public String getPassword() {
-        String password = pref.getString("password", null);
+        String password = pref.getString("password", "0");
         int len = password.length();
         len /= 2;
         StringBuilder b1 = new StringBuilder(password.substring(0, len));
@@ -109,7 +109,6 @@ public class SharedPrefUtils {
         password = b1.reverse().toString() + b2.reverse().toString();
         return password;
     }
-
 
     /**
      * the method return ArrayList of object(dependent of your type you saved) from shared Preferences

@@ -22,10 +22,10 @@ import com.example.FindShareParking.Objects.FireStoreManager;
 import com.example.FindShareParking.Objects.MapManagerPost;
 import com.example.FindShareParking.Objects.Post;
 import com.example.FindShareParking.R;
-import com.example.FindShareParking.Utils.AuthUtils;
 import com.example.FindShareParking.databinding.FragmentNewPostBinding;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 import java.util.Objects;
@@ -136,7 +136,7 @@ public class NewPostFragment extends Fragment implements ImageUriCallBack {
                 .setLocationParking(getLocationParking())
                 .setImageLocationStorage(imageUri)
                 .setMoreInfo(getMoreInfo())
-                .setCurrentUserId(AuthUtils.getCurrentUser())
+                .setCurrentUserId(getCurrentUserIdAuth())
                 .setFiledId(String.valueOf(System.currentTimeMillis()));
 
 
@@ -149,6 +149,11 @@ public class NewPostFragment extends Fragment implements ImageUriCallBack {
         return post;
 
     }
+
+    private String getCurrentUserIdAuth() {
+        return Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+    }
+
 
     private String getMoreInfo() {
         return Objects.requireNonNull(binding.textMoreInfo.getEditText()).getText().toString();

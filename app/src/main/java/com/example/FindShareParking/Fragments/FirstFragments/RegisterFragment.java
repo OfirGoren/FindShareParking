@@ -16,7 +16,6 @@ import com.example.FindShareParking.CallBacks.OpenParkingActivityCallBack;
 import com.example.FindShareParking.Objects.FireStoreManager;
 import com.example.FindShareParking.Objects.User;
 import com.example.FindShareParking.R;
-import com.example.FindShareParking.Utils.AuthUtils;
 import com.example.FindShareParking.Utils.SharedPrefUtils;
 import com.example.FindShareParking.databinding.FragmentRegisterBinding;
 import com.google.android.material.textfield.TextInputLayout;
@@ -69,7 +68,9 @@ public class RegisterFragment extends Fragment {
                     // when Sign in success, update UI with the signed-in user's information
                     if (task.isSuccessful()) {
                         //save the name , email  , password of the new user;
-                        saveNewUserInFireStore(getFullName(), email, AuthUtils.getCurrentUser());
+
+
+                        saveNewUserInFireStore(getFullName(), email, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                         saveLogInDetailSharedPref(email, password);
 
                         if (openParkingActivityCallBack != null) {

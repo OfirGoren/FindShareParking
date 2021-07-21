@@ -2,6 +2,7 @@ package com.example.FindShareParking.Fragments.ParkingFragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,22 +57,31 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
         this.context = context;
     }
 
+    @Override
+    public void onDestroyView() {
+        Log.d("onDestroyView", "onDestroyView: ");
+        super.onDestroyView();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        setHasOptionsMenu(true);
         binding = FragmentHomeParkingBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+            setHasOptionsMenu(true);
 
-        initValues();
-        initObjects();
-        initColors();
-        initRecyclerView();
-        requestAllPostInFireStore();
-        initCallBacks();
-        return view;
+        setRetainInstance(true);
+
+            initValues();
+            initObjects();
+            initColors();
+            initRecyclerView();
+            requestAllPostInFireStore();
+            initCallBacks();
+
+            return view;
+
     }
 
     private void requestAllPostInFireStore() {
@@ -79,6 +89,8 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
             fireStoreManager.getAllPost();
         }
     }
+
+
 
     private void initColors() {
         binding.swipeLayout.setColorSchemeResources(R.color.orange);
@@ -274,6 +286,7 @@ public class HomeParkingFragment extends Fragment implements AllPostCallBack, My
                 }
                 // when the post doesn't exists
             } else {
+
                 // when the post belong to current user
                 if (newPost.getCurrentUserId().equals(AuthUtils.getCurrentUser())) {
                     //add the post to the list

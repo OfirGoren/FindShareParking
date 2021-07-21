@@ -29,6 +29,8 @@ public class WelcomeFragment extends Fragment {
         binding = FragmentWelcomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+
+
         initListeners();
         initValues();
         //if the current user already connected log in

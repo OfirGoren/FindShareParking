@@ -264,7 +264,7 @@ public class FireStoreManager {
     and also array that contains only my posts
     */
     public void getAllPost() {
-
+        Log.d("getAllPost", "getAllPost: ");
         // save the time when first time get all post from DB (register to account)
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query = db.collection(ALL_POST);
@@ -278,7 +278,7 @@ public class FireStoreManager {
                             createAllPostCollection();
                             //there is already collection in FireStore
                         } else {
-                            Log.d("getAllPost", "getAllPost: " + returnAllPost);
+
                             // we want to return to all post
                             if (returnAllPost) {
                                 // get all post from fire store

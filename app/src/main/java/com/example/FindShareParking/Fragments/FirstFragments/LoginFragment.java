@@ -81,7 +81,6 @@ public class LoginFragment extends Fragment {
 
     }
 
-
     private void listenerFingerPrint() {
         Executor executor = ContextCompat.getMainExecutor(this.context);
         biometricPrompt = new BiometricPrompt(LoginFragment.this,
@@ -97,9 +96,16 @@ public class LoginFragment extends Fragment {
             public void onAuthenticationSucceeded(
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                handleShowProgressBarAndFingerPrintIcon(View.INVISIBLE, View.VISIBLE);
-                signInWithEmailAndPassword(SharedPrefUtils.getInstance().getString(RegisterFragment.EMAIL, "")
-                        , SharedPrefUtils.getInstance().getPassword());
+
+                String email = SharedPrefUtils.getInstance().getString(RegisterFragment.EMAIL, null);
+                String password = SharedPrefUtils.getInstance().getPassword();
+
+                if (password != null && email != null) {
+                    signInWithEmailAndPassword(email, password);
+                    handleShowProgressBarAndFingerPrintIcon(View.INVISIBLE, View.VISIBLE);
+
+                } else {
+                }
 
             }
 
