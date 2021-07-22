@@ -9,7 +9,7 @@ Find & Share Parking - The app is designed to provide Finding and sharing availa
 ## Highlight features:
 * Login with fingerprint.
 * Show the available parking space on the map.
-* Navigation to the availabl parking with the click of a button using Google Maps.
+* Navigation to the available parking with the click of a button using Google Maps.
 * Search for available parking spaces by location.
 * Filter posts by type of parking (disabled).
 * Making likes and receiving likes.
