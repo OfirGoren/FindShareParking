@@ -22,10 +22,9 @@
         android:theme="@style/Theme.FindShareParking">
 
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyBKiYWhgmuUlhRes53bAxKEd_0Cbw7w2T0" />
 
         <activity
             android:name=".activity.ParkingActivity"

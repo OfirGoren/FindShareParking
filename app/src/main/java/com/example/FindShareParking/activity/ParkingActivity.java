@@ -348,7 +348,6 @@ public class ParkingActivity extends AppCompatActivity implements PostNotifyCall
                 if (isGranted) {
                     hideBottomNav();
                     displayNewPostFragment();
-                } else {
                 }
             });
 
