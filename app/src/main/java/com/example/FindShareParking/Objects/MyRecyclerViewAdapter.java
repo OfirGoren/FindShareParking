@@ -172,6 +172,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 FireStoreManager.updateLike(post);
                 holder.amountOfLikes.setText(String.valueOf(post.getAmountOfLikes() + 1));
 
+
             }
 
             @Override
