@@ -180,6 +180,7 @@
 
 
             <TextView
+
                 android:layout_toEndOf="@id/navigateButton"
                 android:id="@+id/kindOfParking"
                 android:gravity="right"
